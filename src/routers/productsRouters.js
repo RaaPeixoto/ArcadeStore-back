@@ -10,8 +10,8 @@ const router =Router();
 router.get("/products",getProducts);
 
 router.use(admVerification);
-router.post("product",validateProductSchema, postProduct);
-router.delete("product",deleteProduct);
-router.put("product",validateProductSchema,updateProduct);
+router.post("/product",validateProductSchema, postProduct);
+router.delete("/product/:id",deleteProduct);
+router.put("/product",validateProductSchema,updateProduct);
 
 export default router;
