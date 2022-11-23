@@ -51,3 +51,40 @@ export async function getProducts(req, res) {
       res.sendStatus(500);
     } */
   }
+
+  export async function deleteProduct(req, res) {
+    const { id } = req.params;
+    
+    try {
+      await productsCollection.deleteOne({
+        _id: new ObjectId(id),
+      });
+  
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+  }
+
+  export async function updateProduct(req, res) {
+    
+    const { id } = req.params;
+   const productUpdate = req.body;
+  
+    try {
+      await productsCollection.updateOne(
+        {
+          _id: new ObjectId(id),
+        },
+        {
+          $set: {productUpdate},
+        }
+      );
+  
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+  }

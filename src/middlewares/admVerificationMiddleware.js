@@ -9,11 +9,11 @@ try {
     if (userData.type!=="adm"){
         res.sendStatus(401);
     }
-    next()
+    
 } catch {
     res.sendStatus(401);
 	// se caiu aqui, o token é inválido ou foi adulterado
 }
 
-
+next()
 }
