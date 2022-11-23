@@ -10,6 +10,6 @@ try {
     console.log(err);
   }
 
-  const db = mongoClient.db("ArcadeShop");
+  const db = mongoClient.db("ArcadeStore");
 
   export const productsCollection = db.collection("products");
