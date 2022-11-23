@@ -1,15 +1,23 @@
 import { productsCollection } from "../database/db.js";
 
 export async function getProducts(req, res) {
-   
+const {id} = req.params
+
+  
+  .toArray();
     
     try {
-     
+     if (!id){
       const productsList = await productsCollection
         .find()
         .toArray();
   
-      res.send(productsList);
+      return res.send(productsList);}
+      const productById= await productsCollection
+  .find({
+    _id: new ObjectId(id),
+  })
+  res.send(productById);
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
