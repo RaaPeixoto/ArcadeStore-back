@@ -37,9 +37,9 @@ const {id} = req.params
      */
 
   const {image,title,description,price,plataforms} = req.body;
-  const {authorization} = req.headers;
+ 
 
-    /* try {
+    try {
      
       const productsList = await productsCollection
         .insertOne({
@@ -53,11 +53,11 @@ const {id} = req.params
         })
         .toArray();
   
-      res.sendStatus(200);
+      res.status(200),send(productsList);
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
-    } */
+    } 
   }
 
   export async function deleteProduct(req, res) {
