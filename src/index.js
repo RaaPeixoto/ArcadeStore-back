@@ -7,6 +7,8 @@ const app = express();
 dotenv.config();
 app.use(cors());
 app.use(express.json());
+// colocar as rotas e importar
+//app.use(usersRouters);
 
 
 
