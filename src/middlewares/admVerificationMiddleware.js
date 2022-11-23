@@ -15,5 +15,5 @@ try {
 	// se caiu aqui, o token é inválido ou foi adulterado
 }
 
-next()
+next();
 }
