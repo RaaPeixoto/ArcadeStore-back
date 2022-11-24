@@ -9,10 +9,6 @@ import { productSchema } from "../models/productSchema";
     releaseDate : 25/11/2022 */
 
   export function validateProductSchema(req,res,next){
-    const Joi = require('joi')
-    .extend(require('@joi/date'));
-
-
     const {error}=productSchema.validate(req.body,{abortEarly:false});
 
     if(error){
