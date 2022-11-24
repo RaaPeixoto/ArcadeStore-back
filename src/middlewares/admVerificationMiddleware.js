@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 export async function admVerification (req,res,next){
 const token = req.headers//pegar token do header
 const key = process.env.JWT_SECRET;
