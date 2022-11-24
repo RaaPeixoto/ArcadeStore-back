@@ -13,3 +13,4 @@ try {
   const db = mongoClient.db("ArcadeStore");
 
   export const productsCollection = db.collection("products");
+  export const usersCollection = db.collection("users");
