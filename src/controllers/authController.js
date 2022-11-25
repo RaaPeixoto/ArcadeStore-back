@@ -1,13 +1,17 @@
 import { ObjectId } from "mongodb";
 import { usersCollection } from "../database/db";
+import {v4 as uuidV4} from "uuid"
+import bcrypt from "bcrypt"
 
 export async function signIn(req, res) {
   const user = res.locals.user;
-  
+  const token = uuidV4();
   try {
-    res.sendStatus(201);
+    await sessionsColecction.insertOne({token, userId: user._id})
+    res.send(token);
   } catch (err) {
     console.log(err);
+    res.sendStatus(500)
   }
 }
 
@@ -24,14 +28,17 @@ export async function signUp(req, res) {
 }
 
 export async function updateUser(req,res){
-  const newUser = res.locals.newUser;
-  const { id } = req.params;
+const newUser = res.locals.newUser;
+const {id} = req.params;
 
-  try {
-    await usersCollection.updateOne({ _id: ObjectId(id) }, { $set: newUser });
-    res.sendStatus(200);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
+try{
+  await usersCollection.updateOne({_id:ObjectId(id)}, {$set:newUser});
+
+  res.sendStatus(200)
+}catch(err){
+  console.log(err);
+  res.sendStatus(500);
+}
+
+
 }
