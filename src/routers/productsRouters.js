@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { deleteProduct, getProducts, postProduct, updateProduct } from "../controllers/productsController.js";
 import { admVerification } from "../middlewares/admVerificationMiddleware.js";
-import { validateProductSchema } from "../models/productSchema.js";
+import { validateProductSchema } from "../middlewares/productSchemaMiddleware.js";
 
 
 const router =Router();
