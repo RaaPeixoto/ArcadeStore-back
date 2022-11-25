@@ -7,3 +7,10 @@ export const userSchema = joi.object({
     repeat_passord: joi.ref("password"),
     type:joi.string().required().valid("adm", "user")
   });
+
+  export const signInSchema = joi.object({
+    
+    email: joi.string().email().required(),
+    password: joi.string().required(),
+
+  });

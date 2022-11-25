@@ -1,5 +1,5 @@
 import joi from "joi";
-
+import JoiDateFactory from "@joi/date";
  /* formato de envio {
   "image":"URL  de uma imagem bem legal"
     "title":"Plague Tale",
@@ -8,14 +8,14 @@ import joi from "joi";
     "plataforms": [x-box,playstation,PC]
     releaseDate : 25/11/2022 */
 
- 
   export const productSchema = joi.object({
         image:joi.string(),
         title:joi.string().required(),
         description:joi.string().required(),
         price:joi.string().required(),
         plataforms:joi.array().items(joi.string()).required(),
-        releaseDate:Joi.date().format('YYYY-MM-DD').utc()
+       /*  releaseDate:joi.date().format('YYYY-MM-DD').utc() */
+       releaseDate:joi.string().required
         });
 
   
