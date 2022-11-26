@@ -1,17 +1,10 @@
-import joi from "joi";
 import jwt from 'jsonwebtoken';
 import { usersCollection } from "../database/db.js";
 import bcrypt from "bcrypt";
+import { ObjectId } from 'mongodb';
 
-const userSchema = joi.object({
-  name: joi.string().required().min(4),
-  email: joi.string().email().required().min(4),
-  password: joi.string().required().min(4),
-  repeat_passord: joi.ref("password"),
-  type:joi.string().required().valid("adm", "user")
-});
 
-export async function singInValidation(req, res, next) {
+export async function signInValidation(req, res, next) {
   const { email, password } = req.body;
 
   try {
@@ -31,7 +24,7 @@ export async function singInValidation(req, res, next) {
 }
 
 
-export async function singUpValidation(req, res, next) {
+export async function signUpValidation(req, res, next) {
 const {name,email,password,passwordConfirm,type} = req.body;
 
 const user = {
@@ -48,4 +41,29 @@ if(error){
 }
 res.locals.user = user;
 next();
+}
+
+export async function authRoutersValidation(req,res,next){
+  const {authorization} = req.headers
+  const token = authorization?.replace("Bearer", "");
+  if(!token){
+    return res.sendStatus(401);
+  }
+  try{
+    const session = await sessionsCollection.findOne({token});
+    const user = await usersCollection.findOne({_id:session?.userId})
+    if(!user){
+      return res.sendStatus(401);
+    }
+    res.locals.user = user;
+  }catch(err){
+    console.log(err)
+    res.sendStatus(500)
+  }
+}
+
+export async function updateUserValidation(){
+
+
+
 }

@@ -14,3 +14,4 @@ try {
 
   export const productsCollection = db.collection("products");
   export const usersCollection = db.collection("users");
+  export const shopKartCollection = db.collection("shopKart");

@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { singInValidation } from "../middlewares/authValidation";
-import {singIn}
+import { signInValidation,signUpValidation } from "../middlewares/authValidationMiddleware";
+import {signIn, signUp, updateUser} from "../controllers/authController.js"
+
+
 const authRouter = Router();
-authRouter.post("/user", ,singIn)
+authRouter.post("/user",signInValidation ,signIn);
+authRouter.post("/user", signUpValidation, signUp);
+authRouter.put("/user/:id", updateUser)
+
+export default authRouter;
