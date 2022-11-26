@@ -2,13 +2,14 @@ import jwt from 'jsonwebtoken';
 import { usersCollection } from "../database/db.js";
 import bcrypt from "bcrypt";
 import { ObjectId } from 'mongodb';
-
+import { userSchema } from '../models/usersSchema.js';
 
 export async function signInValidation(req, res, next) {
   const { email, password } = req.body;
 
   try {
     const user = await usersCollection.findOne({ email });
+   
     if (!user) {
       return res.sendStatus(401);
     }
@@ -16,7 +17,8 @@ export async function signInValidation(req, res, next) {
     if (!passwordConfirm) {
       return res.sendStatus(401);
     }
-    res.local.user = user;
+    res.locals.user = user;
+    
   } catch (err) {
     console.log(err);
   }
@@ -26,7 +28,10 @@ export async function signInValidation(req, res, next) {
 
 export async function signUpValidation(req, res, next) {
 const {name,email,password,passwordConfirm,type} = req.body;
-
+const isRegistered = await usersCollection.findOne({email});
+if(isRegistered){
+  return res.status(409).send("Email já cadastrado!")
+}
 const user = {
 name,
 email,
@@ -34,12 +39,17 @@ password,
 passwordConfirm,
 type: !type?"user" : type,
 };
+
 const {error} = userSchema.validate(user, {abortEarly:false});
+
 if(error){
   const erros = error.details.map((detail)=>detail.message);
   return res.status(400).send(erros);  
 }
-res.locals.user = user;
+
+res.locals.user = {name,email,password,type};
+
+
 next();
 }
 
