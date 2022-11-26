@@ -12,7 +12,8 @@ const {id} = req.params
         .find()
         .toArray();
   
-      return res.send(productsList);}
+      return res.send(productsList);
+    }
       const productById= await productsCollection
   .find({
     _id: new ObjectId(id),
