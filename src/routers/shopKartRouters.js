@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { admVerification } from "../middlewares/admVerificationMiddleware";
-
+import { postShopKart, deleteItemShopKart, getShopKart } from "../controllers/shopKartControlles";
+import { validateShopKartSchema } from "../middlewares/shopKartValidationMiddleware";
 
 const shopKartRouter = Router();
 
-shopKartRouter.post("/shopKart",  postShopKart)
-shopKartRouter.post("/shopKart", admVerification, deleteShopKart);
+shopKartRouter.post("/shopKart",validateShopKartSchema,  postShopKart)
+shopKartRouter.delete("/shopKart/:id",  deleteItemShopKart);
+shopKartRouter.get("/shopKart", getShopKart)
 
 export default shopKartRouter
