@@ -28,8 +28,10 @@ export async function deleteItemShopKart(req, res) {
 export async function getShopKart(req,res){
     const token = req.headers
     try{
-    const userKart = await shopKartCollection.find({user:token}).sort().toArray();    
-    res.send({userKart})
+    const allShopKart = (await shopKartCollection.find().sort().toArray()).filter((userShopKart)=>{
+      shopKartCollection({user:token})
+    });    
+    res.send({userShopKart})
 }catch(err){
         console.log(err)
         res.sendStatus(500)
