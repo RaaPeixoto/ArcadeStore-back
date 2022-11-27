@@ -35,6 +35,10 @@ passwordConfirm,
 type: !type?"user" : type,
 };
 const {error} = userSchema.validate(user, {abortEarly:false});
+const newEmail = await usersCollection.findOne(email)
+if(newEmail){
+  return res.sendStatus(501)
+}
 if(error){
   const erros = error.details.map((detail)=>detail.message);
   return res.status(400).send(erros);  
