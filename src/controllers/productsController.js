@@ -1,21 +1,21 @@
 import { productsCollection } from "../database/db.js";
-
+import { ObjectId } from "mongodb";
 export async function getProducts(req, res) {
 const {id} = req.params
 
-  
-  .toArray();
     
     try {
-     if (!id){
-      const productsList = await productsCollection
-        .find()
-        .toArray();
+   
+if (!id){
+  const productsList = await productsCollection
+    .find()
+    .toArray();
+
+  return res.send(productsList);
+}
   
-      return res.send(productsList);
-    }
       const productById= await productsCollection
-  .find({
+  .findOne({
     _id: new ObjectId(id),
   })
   res.send(productById);
@@ -26,25 +26,30 @@ const {id} = req.params
   }
   
   export async function postProduct(req, res) {
- /*   formato de envio {
-  "image":"URL  de uma imagem bem legal"
+ /*   formato de envio 
+{"image":"URL  de uma imagem bem legal",
+  "banner":"aaaaaaa",
     "title":"Plague Tale",
     "description": "Um jogo muito legal de matar ratos",
-    "price": 125,
-    "plataforms": [x-box,playstation,PC]
-    releaseDate : 25/11/2022
+    "price": "125",
+    "plataforms": ["x-box","playstation","PC"],
+    "releaseDate" : "25/11/2022"
+  
+}
 
-  }
+09f02881-dd05-4538-b937-e8cff95e1c73
+  
      */
 
-  const {image,title,description,price,plataforms} = req.body;
+  const {image,banner,title,description,price,plataforms,releaseDate} = req.body;
  
 
     try {
      
-      const productsList = await productsCollection
+      await productsCollection
         .insertOne({
           image,
+          banner,
           title,
           description,
           price,
@@ -52,9 +57,9 @@ const {id} = req.params
           releaseDate,
 
         })
-        .toArray();
+        
   
-      res.status(200),send(productsList);
+      res.sendStatus(200);
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
@@ -80,7 +85,7 @@ const {id} = req.params
     
     const { id } = req.params;
    const productUpdate = req.body;
-  
+  console.log(id)
     try {
       await productsCollection.updateOne(
         {
