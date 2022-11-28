@@ -22,6 +22,7 @@ export async function signUp(req, res) {
   const passwordHash = bcrypt.hashSync(user.password, 10)
  
   try {
+   
     await usersCollection.insertOne({...user, password:passwordHash});
   
    res.sendStatus(201);
