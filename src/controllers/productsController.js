@@ -84,7 +84,7 @@ if (!id){
   export async function updateProduct(req, res) {
     
     const { id } = req.params;
-   const productUpdate = req.body;
+   const {image,banner,title,description,price,plataforms,releaseDate}= req.body;
   console.log(id)
     try {
       await productsCollection.updateOne(
@@ -92,7 +92,7 @@ if (!id){
           _id: new ObjectId(id),
         },
         {
-          $set: {productUpdate},
+          $set: {image,banner,title,description,price,plataforms,releaseDate},
         }
       );
   

@@ -9,7 +9,7 @@ const router =Router();
 router.get("/products/:id?",getProducts);
 
 router.use(admVerification);
-router.post("/product/",validateProductSchema, postProduct);
+router.post("/product",validateProductSchema, postProduct);
  router.delete("/product/:id",deleteProduct);
 router.put("/product/:id",validateProductSchema,updateProduct); 
 
