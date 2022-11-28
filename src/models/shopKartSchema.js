@@ -4,5 +4,6 @@ export const shopKartSchema = joi.object({
     image:joi.string().required(),
     price: joi.string().required(),
     title:joi.string().required(),
+    productId:joi.string().required()
     });
     
