@@ -1,10 +1,10 @@
 import { shopKartCollection} from "../database/db";
 
 export async function postShopKart(req, res) {
-  const newBuy = req.body;
+  const productSelect = req.body;
   const { id } = res.headers;
   try {
-    await shopKartCollection.insertOne({ product: newBuy, user: id });
+    await shopKartCollection.insertOne({ product: productSelect, user: id });
     res.sendStatus(201);
   } catch (err) {
     console.log(err);
@@ -13,11 +13,11 @@ export async function postShopKart(req, res) {
 }
 
 export async function deleteItemShopKart(req, res) {
-  const { title } = req.body;
-  const { id } = req.headers;
+  const { title, price, id } = req.body; 
+  const { token } = req.headers;
 
   try {
-    await shopKartCollection.deleteOne({ product: title, user: id });
+    await shopKartCollection.deleteOne({ product: title, user: token });
     res.sendStatus(401);
   } catch (err) {
     console.log(err);

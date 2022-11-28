@@ -6,6 +6,6 @@ const shopKartRouter = Router();
 
 shopKartRouter.post("/shopKart",validateShopKartSchema,  postShopKart)
 shopKartRouter.delete("/shopKart/:id",  deleteItemShopKart);
-shopKartRouter.get("/shopKart", getShopKart)
+shopKartRouter.get("/shopKart/:id", getShopKart)
 
 export default shopKartRouter
