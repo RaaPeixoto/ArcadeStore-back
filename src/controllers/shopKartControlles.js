@@ -1,14 +1,16 @@
-import { shopKartCollection} from "../database/db";
+import { sessionsCollection, shopKartCollection} from "../database/db.js";
 
 export async function postShopKart(req, res) {
   const productSelect = req.body;
-  const { id } = res.headers;
+  const { authorization } = req.headers;
+  const userId = await sessionsCollection.findOne({authorization});
   try {
-    await shopKartCollection.insertOne({ product: productSelect, user: id });
+    await shopKartCollection.insertOne({ product: productSelect, userId });
+    console.log({ product: productSelect, userId })
     res.sendStatus(201);
   } catch (err) {
     console.log(err);
-    res.sendStatus(401);
+    res.sendStatus(404);
   }
 }
 
@@ -28,7 +30,7 @@ export async function deleteItemShopKart(req, res) {
 export async function getShopKart(req,res){
     const token = req.headers
     try{
-    const allShopKart = (await shopKartCollection.find().sort().toArray()).filter((userShopKart)=>{
+    const allShopKart = (await shopKartCollection.find({}).sort().toArray()).filter((userShopKart)=>{
       shopKartCollection({user:token})
     });    
     res.send({userShopKart})
