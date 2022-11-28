@@ -26,10 +26,9 @@ export async function validateDeleteItem(req, res, next) {
   if (!kartItem) {
     return res.sendStatus(404);
   }
-  console.log(kartItem.userId)
-  console.log(user.userId)
+  
   if (kartItem.userId.toString() !== user.userId.toString()) {
-    console.log("esse produto não é desse usuário");
+    
     return res.sendStatus(401);
   }
   next();
