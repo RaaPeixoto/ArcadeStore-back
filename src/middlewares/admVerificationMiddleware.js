@@ -8,7 +8,7 @@ const token = authorization?.replace("Bearer ", "");
   if (!token) {
     return res.sendStatus(401);
   }
-console.log(authorization)
+
 try {
 	const userData = await sessionsCollection.findOne({token});
 	// formato { name: "Raisa", email:"raisa@raisa.com",type: "adm ou user", id : "id do usuário"}

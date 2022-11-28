@@ -26,10 +26,9 @@ export async function validateDeleteItem(req, res, next) {
   if (!kartItem) {
     return res.sendStatus(404);
   }
-  console.log(kartItem.userId)
-  console.log(user.userId)
+  
   if (kartItem.userId.toString() !== user.userId.toString()) {
-    console.log("esse produto não é desse usuário");
+    
     return res.sendStatus(401);
   }
   next();
@@ -39,8 +38,11 @@ export async function validateGetItem(req,res,next){
  
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer ", "");
-  const user = await sessionsCollection.findOne({ token });
   if (!token) {
+    return res.sendStatus(401);
+  }
+  const user = await sessionsCollection.findOne({ token });
+  if (!user) {
     return res.sendStatus(401);
   }
  res.locals.user=user;

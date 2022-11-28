@@ -1,20 +1,41 @@
 import { ObjectId } from "mongodb";
-import { checkOutCollection } from "../database/db";
+import {sessionsCollection, checkOutCollection, shopKartCollection } from "../database/db.js";
 
 export async function postCheckOut(req,res){
-const {id} = req.headers
-const productCheckOut = req.body
+
+const { authorization } = req.headers;
+const token = authorization?.replace("Bearer ", ""); 
+const user = await sessionsCollection.findOne({token});
+const games = req.body.games;
+
+const checkoutObj= {
+games,
+userId:user.userId
+}
+
 try{
-await checkOutCollection.insertOne({product:productCheckOut, user:id})
+  
+await checkOutCollection.insertOne(checkoutObj)
+await shopKartCollection.deleteMany({userId:user.userId})
 res.sendStatus(201)
 }catch(err){
-    console.log(err)}
-    res.sendStatus(501)
+    console.log(err)
+    res.sendStatus(404)
+}
+    
 
 }
 
 export async function getCheckOut(req,res){
-    
+    const user = res.locals.user;
+   
+    try{
+    const userCheckOut = await checkOutCollection.find({userId:user.userId}).toArray();
+    res.send(userCheckOut)
+}catch(err){
+        console.log(err)
+        res.sendStatus(500)
+    }
     try{
 
     }catch(err){
@@ -22,14 +43,6 @@ export async function getCheckOut(req,res){
     
     }
 
-}
 
-export async function deleteCheckOut(req,res){
-    try{
 
-    }catch(err){
-        console.log(err)}
-    
-    }
 
-}

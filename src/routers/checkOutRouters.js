@@ -1,11 +1,12 @@
 import {Router} from "express";
-import { postCheckOut, getCheckOut,deleteCheckOut } from "../controllers/checkOutController";
+import { postCheckOut, getCheckOut} from "../controllers/checkOutController.js";
+import { validatecheckOutSchema, validateGetCheckOut } from "../middlewares/checkOutMiddleware.js";
 
 
 const checkOutRouter = Router();
 
-checkOutRouter.get("/checkOut", )
-checkOutRouter.post("/checkOut", )
-checkOutRouter.delete("/checkOut", )
+checkOutRouter.get("/checkOut",validateGetCheckOut,getCheckOut )
+checkOutRouter.post("/checkOut",validatecheckOutSchema, postCheckOut)
+
 
 export default checkOutRouter
