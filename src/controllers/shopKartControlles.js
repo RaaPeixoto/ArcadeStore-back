@@ -1,12 +1,14 @@
 import { sessionsCollection, shopKartCollection} from "../database/db.js";
-
+import { ObjectId } from "mongodb";
 export async function postShopKart(req, res) {
   const productSelect = req.body;
   const { authorization } = req.headers;
-  const userId = await sessionsCollection.findOne({authorization});
+  const token = authorization?.replace("Bearer ", ""); 
+  const user = await sessionsCollection.findOne({token});
+ 
   try {
-    await shopKartCollection.insertOne({ product: productSelect, userId });
-    console.log({ product: productSelect, userId })
+    await shopKartCollection.insertOne({ product: productSelect, userId:user.userId});
+    
     res.sendStatus(201);
   } catch (err) {
     console.log(err);
@@ -15,12 +17,10 @@ export async function postShopKart(req, res) {
 }
 
 export async function deleteItemShopKart(req, res) {
-  const { title, price, id } = req.body; 
-  const { token } = req.headers;
-
+  const { id} = req.params; 
   try {
-    await shopKartCollection.deleteOne({ product: title, user: token });
-    res.sendStatus(401);
+    await shopKartCollection.deleteOne({_id: new ObjectId(id)});
+    res.sendStatus(200);
   } catch (err) {
     console.log(err);
     res.sendStatus(501);
@@ -28,12 +28,11 @@ export async function deleteItemShopKart(req, res) {
 }
 
 export async function getShopKart(req,res){
-    const token = req.headers
+    const user = res.locals.user;
+    console.log(user.userId)
     try{
-    const allShopKart = (await shopKartCollection.find({}).sort().toArray()).filter((userShopKart)=>{
-      shopKartCollection({user:token})
-    });    
-    res.send({userShopKart})
+    const userShopKart = await shopKartCollection.find({userId:user.userId}).toArray();
+    res.send(userShopKart)
 }catch(err){
         console.log(err)
         res.sendStatus(500)
