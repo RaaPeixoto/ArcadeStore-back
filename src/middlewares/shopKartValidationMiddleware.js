@@ -39,8 +39,11 @@ export async function validateGetItem(req,res,next){
  
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer ", "");
-  const user = await sessionsCollection.findOne({ token });
   if (!token) {
+    return res.sendStatus(401);
+  }
+  const user = await sessionsCollection.findOne({ token });
+  if (!user) {
     return res.sendStatus(401);
   }
  res.locals.user=user;
