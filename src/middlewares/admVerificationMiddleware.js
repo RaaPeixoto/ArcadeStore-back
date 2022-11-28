@@ -12,9 +12,12 @@ const token = authorization?.replace("Bearer ", "");
 try {
 	const userData = await sessionsCollection.findOne({token});
 	// formato { name: "Raisa", email:"raisa@raisa.com",type: "adm ou user", id : "id do usuário"}
-    console.log(userData)
+  if(!userData){
+return res.sendStatus(401);
+  }
+ 
     if (userData.type!=="adm"){
-        res.sendStatus(401);
+        return res.sendStatus(401);
     }
     
 } catch {
