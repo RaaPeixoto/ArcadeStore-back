@@ -4,7 +4,7 @@ import { sessionsCollection } from "../database/db.js";
 
 export async function admVerification (req,res,next){
 const {authorization} = req.headers//pegar token do header
-const token = authorization?.replace("Bearer ", "");
+const token = authorization?.replace("Bearer ", ""); 
   if (!token) {
     return res.sendStatus(401);
   }
