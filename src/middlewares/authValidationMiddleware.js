@@ -1,5 +1,4 @@
-import jwt from 'jsonwebtoken';
-import { usersCollection } from "../database/db.js";
+import { usersCollection,sessionsCollection } from "../database/db.js";
 import bcrypt from "bcrypt";
 import { ObjectId } from 'mongodb';
 import { userSchema } from '../models/usersSchema.js';
@@ -45,7 +44,7 @@ const newEmail = await usersCollection.findOne(email)
 if(newEmail){
   return res.sendStatus(501)
 }
-7u
+
 if(error){
   const erros = error.details.map((detail)=>detail.message);
   return res.status(400).send(erros);  
@@ -74,10 +73,4 @@ export async function authRoutersValidation(req,res,next){
     console.log(err)
     res.sendStatus(500)
   }
-}
-
-export async function updateUserValidation(){
-
-
-
 }

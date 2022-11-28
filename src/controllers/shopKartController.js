@@ -2,7 +2,7 @@ import { shopKartCollection} from "../database/db";
 
 export async function postShopKart(req, res) {
   const productSelect = req.body;
-  const { id } = res.headers;
+  const { id } = req.headers;
   try {
     await shopKartCollection.insertOne({ product: productSelect, user: id });
     res.sendStatus(201);
