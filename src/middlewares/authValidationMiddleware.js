@@ -27,6 +27,7 @@ export async function signInValidation(req, res, next) {
 
 export async function signUpValidation(req, res, next) {
 const {name,email,password,passwordConfirm,type} = req.body;
+
 const isRegistered = await usersCollection.findOne({email});
 if(isRegistered){
   return res.status(409).send("Email já cadastrado!")
@@ -39,18 +40,23 @@ passwordConfirm,
 type: !type?"user" : type,
 };
 
+
 const {error} = userSchema.validate(user, {abortEarly:false});
+<<<<<<< HEAD
 const newEmail = await usersCollection.findOne(email)
 if(newEmail){
   return res.sendStatus(501)
 }
+=======
+
+>>>>>>> main
 
 if(error){
   const erros = error.details.map((detail)=>detail.message);
   return res.status(400).send(erros);  
 }
-
-res.locals.user = {name,email,password,type};
+delete user.passwordConfirm;
+res.locals.user = user;
 
 
 next();
