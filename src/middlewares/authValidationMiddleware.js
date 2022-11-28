@@ -1,5 +1,4 @@
-import jwt from 'jsonwebtoken';
-import { usersCollection } from "../database/db.js";
+import { usersCollection,sessionsCollection } from "../database/db.js";
 import bcrypt from "bcrypt";
 import { ObjectId } from 'mongodb';
 import { userSchema } from '../models/usersSchema.js';
@@ -43,7 +42,14 @@ type: !type?"user" : type,
 
 
 const {error} = userSchema.validate(user, {abortEarly:false});
+<<<<<<< HEAD
+const newEmail = await usersCollection.findOne(email)
+if(newEmail){
+  return res.sendStatus(501)
+}
+=======
 
+>>>>>>> main
 
 if(error){
   const erros = error.details.map((detail)=>detail.message);
@@ -73,10 +79,4 @@ export async function authRoutersValidation(req,res,next){
     console.log(err)
     res.sendStatus(500)
   }
-}
-
-export async function updateUserValidation(){
-
-
-
 }
